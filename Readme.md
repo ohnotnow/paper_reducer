@@ -57,7 +57,7 @@ Inspired on the back of watching a youtube video by [David Shapiro](https://www.
 
 ## Example output
 When given this Arxiv paper to summarise "[Learning to reconstruct the bubble distribution with conductivity
-maps using Invertible Neural Networks and Error Diffusion](https://arxiv.org/ftp/arxiv/papers/2307/2307.02496.pdf)" and using the gpt-3.5 model (using gpt-4 would give much better results if you have access) we get the following:
+maps using Invertible Neural Networks and Error Diffusion](https://arxiv.org/ftp/arxiv/papers/2307/2307.02496.pdf)" and using the gpt-3.5 model (using gpt-4 would give much better results if you have access) we get the following (original paper 3,162 words, 3x different summariers 824 words):
 
 ---
 # 2307.02496.pdf
