@@ -38,7 +38,7 @@ def get_new_pdf_contents(papers_dir, max_chars=default_max_chars):
                 for page_num in range(len(pdf_reader.pages)):
                     page = pdf_reader.pages[page_num]
                     text_contents += page.extract_text()
-                if len(text_contents) > max_chars:
+                if max_chars > 0 and len(text_contents) > max_chars:
                     print("Truncating {} to {} characters...".format(filename, max_chars))
                     text_contents = text_contents[0:max_chars]
                 results[filename] = text_contents
@@ -92,7 +92,7 @@ def call_openai_api(results, prompts, model_engine=default_model_engine, tempera
             combined_responses.append("\n\n## Q. {}\n\n{}".format(prompt, response['choices'][0]['message']['content']))
         if len(combined_responses) > 0:
             api_responses[filename] = "# {}\n\n".format(filename) + '\n'.join(combined_responses)
-        if tokens_spent > max_token_spend:
+        if max_token_spend > 0 and tokens_spent > max_token_spend:
             print(f"Max tokens ({max_token_spend}) exceeded. Skipping remaining files...")
             break
     return api_responses

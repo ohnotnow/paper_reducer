@@ -42,13 +42,13 @@ The script is quite conservative by default and has a max token spend of 12000 (
 ```python
 default_max_token_spend = 40000
 ```
-
+If you set this to 0 then there is no maximum.
 ### Maximum characters to send to OpenAI
 By default the script limits the size of text from a paper to 12000 characters (roughly 3000 tokens) so as not to risk hitting limits.  If you are using a larger models like `gpt-4-32k` then you can up the limit.  (It's worth doing a character count on some papers to check what suits your situation).
 ```python
 default_max_chars = 30000
 ```
-
+If you set this to 0 then there is no maximum.
 ### Creativity
 The script defaults to being quite 'straight down the line' in it's calls to the API's and uses a temperature of 0.1.  If you want the models to be more 'creative' you can change the temperature (range is from 0 to 2).
 ```python
