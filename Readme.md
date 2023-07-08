@@ -57,7 +57,7 @@ default_temperature = 1.1
 ### Personality
 The script gives the model a little additional information to let it know it's "role" and help shape the responses.  You can change those to suit your circumstances.
 ```python
-default_personality = "You are a helpful AI assistant that is good at explaining things to 15yr old students."
+default_personality = "You are a helpful AI assistant that is good at explaining things to people with a high-school level of science knowledge."
 ```
 ## Requirements
 
