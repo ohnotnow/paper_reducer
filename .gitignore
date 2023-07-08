@@ -1,3 +1,4 @@
 papers/*
+!papers/.gitkeep
 .DS_Store
 
