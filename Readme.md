@@ -36,7 +36,7 @@ default_model_engine = "gpt-4-32k"
 ```
 
 ### Maximum spend
-The script is quite conservative by default and has a max token spend of 10000 (at the time of writing - should be around US$0.30).  If you want to process more than one or two papers at one time, you probably want to increase that to 20000+.  (For reference - a fairly average Arxiv pdf uses about 3.5k tokens).
+The script is quite conservative by default and has a max token spend of 10000 (at the time of writing - should be around US$0.09 using gpt-3, US$1.80 for gpt-4 *I think*).  If you want to process more than one or two papers at one time, you probably want to increase that to 20000+.  (For reference - a fairly average Arxiv pdf uses about 3.5k tokens).
 ```python
 default_max_token_spend = 40000
 ```
