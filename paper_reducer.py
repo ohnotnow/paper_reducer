@@ -11,8 +11,13 @@ prompts = [
     "Can you explain the value of this in basic terms? Like you're talking to a CEO. So what? What's the bottom line here?",
     "Can you give me an analogy or metaphor that will help explain this to a broad audience.",
 ]
+default_max_chars = 12000
+default_max_token_spend = 10000
+default_model_engine = "gpt-3.5-turbo-16k"
+default_temperature = 0.1
+default_personality = "You are a helpful AI assistant that is expert in taking in complex information and summarising it in a clear, friendly, concise accurate and informative way."
 
-def get_new_pdf_contents(papers_dir, max_chars=12000):
+def get_new_pdf_contents(papers_dir, max_chars=default_max_chars):
     results = {}
     for filename in os.listdir(papers_dir):
         if filename.endswith('.pdf'):
@@ -32,7 +37,7 @@ def get_new_pdf_contents(papers_dir, max_chars=12000):
                 results[filename] = text_contents
     return results
 
-def call_openai_api(results, prompts, model_engine="gpt-3.5-turbo-16k", temperature=0.1, max_token_spend=10000):
+def call_openai_api(results, prompts, model_engine=default_model_engine, temperature=default_temperature, max_token_spend=default_max_token_spend, personality=default_personality):
     openai.api_key = os.environ["OPENAI_API_KEY"]
     api_responses = {}
     tokens_spent = 0
@@ -45,7 +50,7 @@ def call_openai_api(results, prompts, model_engine="gpt-3.5-turbo-16k", temperat
             messages = [
                 {
                     'role': 'system',
-                    'content': contents,
+                    'content': f"{personality}. Here is the text to summarise as instructed by the user: {contents}",
                 },
                 {
                     'role': 'user',

@@ -32,19 +32,31 @@ The script uses a set of default prompts to generate summaries of research paper
 ### OpenAI Model
 By default, this script uses the `gpt-3.5-turbo-16k` model from OpenAI's API. If you have access to other models and would like to use them instead, you can change the model variable in the paper_reducer.py script to the name of the model you want to use.
 ```python
-api_responses = call_openai_api(results, prompts, model_engine="a_different_openai_model")
+default_model_engine = "gpt-4-32k"
 ```
 
 ### Maximum spend
 The script is quite conservative by default and has a max token spend of 10000 (at the time of writing - should be around US$0.30).  If you want to process more than one or two papers at one time, you probably want to increase that to 20000+.  (For reference - a fairly average Arxiv pdf uses about 3.5k tokens).
 ```python
-api_responses = call_openai_api(results, prompts, max_token_spend=40000)
+default_max_token_spend = 40000
 ```
 
 ### Maximum characters to send to OpenAI
-By default the script limits the size of text from a paper to 12000 characters so as not to risk hitting limits.  If you are using a larger models like `gpt-4-32k` then you can up the limit.
+By default the script limits the size of text from a paper to 12000 characters (roughly 3000 tokens) so as not to risk hitting limits.  If you are using a larger models like `gpt-4-32k` then you can up the limit.
 ```python
-results = get_new_pdf_contents(papers_dir, max_chars=30000)
+default_max_chars = 30000
+```
+
+### Creativity
+The script defaults to being quite 'straight down the line' in it's calls to the API's and uses a temperature of 0.1.  If you want the models to be more 'creative' you can change the temperature (range is from 0 to 2).
+```python
+default_temperature = 1.1
+```
+
+### Personality
+The script gives the model a little additional information to let it know it's "role" and help shape the responses.  You can change those to suit your circumstances.
+```python
+default_personality = "You are a helpful AI assistant that is good at explaining things to 15yr old students."
 ```
 ## Requirements
 
