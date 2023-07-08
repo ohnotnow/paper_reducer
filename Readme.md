@@ -40,6 +40,12 @@ The script is quite conservative by default and has a max token spend of 10000 (
 ```python
 api_responses = call_openai_api(results, prompts, max_token_spend=40000)
 ```
+
+### Maximum characters to send to OpenAI
+By default the script limits the size of text from a paper to 12000 characters so as not to risk hitting limits.  If you are using a larger models like `gpt-4-32k` then you can up the limit.
+```python
+results = get_new_pdf_contents(papers_dir, max_chars=30000)
+```
 ## Requirements
 
 * An OpenAI API key.
