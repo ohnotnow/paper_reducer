@@ -1,6 +1,7 @@
 # Paper Reducer
 
 This script uses OpenAI's GPT API to generate multiple summaries of research papers in response to differing prompts. It is designed to work with PDF files and outputs the summaries in Markdown format.
+You can see some example output towards the bottom of this readme.
 
 ## Installation
 
