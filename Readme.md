@@ -42,7 +42,7 @@ default_max_token_spend = 40000
 ```
 
 ### Maximum characters to send to OpenAI
-By default the script limits the size of text from a paper to 12000 characters (roughly 3000 tokens) so as not to risk hitting limits.  If you are using a larger models like `gpt-4-32k` then you can up the limit.
+By default the script limits the size of text from a paper to 12000 characters (roughly 3000 tokens) so as not to risk hitting limits.  If you are using a larger models like `gpt-4-32k` then you can up the limit.  (It's worth doing a character count on some papers to check what suits your situation).
 ```python
 default_max_chars = 30000
 ```
