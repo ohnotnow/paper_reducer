@@ -3,6 +3,7 @@
 import os
 import PyPDF2
 import openai
+import argparse
 from time import sleep
 from halo import Halo
 
@@ -16,6 +17,12 @@ default_max_token_spend = 10000
 default_model_engine = "gpt-3.5-turbo-16k"
 default_temperature = 0.1
 default_personality = "You are a helpful AI assistant that is expert in taking in complex information and summarising it in a clear, friendly, concise accurate and informative way."
+
+def get_available_models():
+    openai.api_key = os.getenv("OPENAI_API_KEY")
+    models = openai.Model.list()
+    for model in models['data']:
+        print(model.id)
 
 def get_new_pdf_contents(papers_dir, max_chars=default_max_chars):
     results = {}
@@ -96,6 +103,15 @@ def save_file(filepath, content):
         outfile.write(content)
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--models', action='store_true', help='List available OpenAI models')
+    args = parser.parse_args()
+
+    # If the --models flag was passed, display the models available with the users API key
+    if args.models:
+        get_available_models()
+        exit(0)
+
     papers_dir = 'papers'
     results = get_new_pdf_contents(papers_dir)
     api_responses = call_openai_api(results, prompts)
