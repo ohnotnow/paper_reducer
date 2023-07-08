@@ -58,7 +58,8 @@ Inspired on the back of watching a youtube video by [David Shapiro](https://www.
 ## Example output
 When given this Arxiv paper to summarise "[Learning to reconstruct the bubble distribution with conductivity
 maps using Invertible Neural Networks and Error Diffusion](https://arxiv.org/ftp/arxiv/papers/2307/2307.02496.pdf)" we get the following:
-```md
+
+---
 # 2307.02496.pdf
 
 ## Q. Give me a very clear explanation of the core assertions, implications, and mechanics elucidated in this paper?
@@ -94,4 +95,3 @@ To do this, you use a special type of artificial intelligence called an Invertib
 However, there are some challenges. The magnetic field measurements are not very detailed, so it's difficult to accurately reconstruct the bubble distribution. Additionally, there may be measurement errors due to noise in the device. To overcome these challenges, the INN uses clever techniques to improve its performance and make better estimates of the bubble distribution.
 
 In summary, the INN is like a detective that uses clues from the magnetic field measurements to figure out where the bubbles are hiding in the bathtub. It's a clever way to indirectly observe something that is not directly visible.
-```
