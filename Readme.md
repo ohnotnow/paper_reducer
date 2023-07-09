@@ -33,32 +33,32 @@ The script uses a set of default prompts to generate summaries of research paper
 ### OpenAI Model
 By default, this script uses the `gpt-3.5-turbo-16k` model from OpenAI's API. If you have access to other models and would like to use them instead, you can change the model variable in the paper_reducer.py script to the name of the model you want to use.
 ```python
-default_model_engine = "gpt-4-32k"
+default_model_engine = os.getenv('REDUCER_MODEL', "gpt-3.5-turbo-16k")
 ```
 If you don't know which models you have available for your API key - then you can run the script with `--models` after it and it'll print out all that are open to you.  Generally you're looking for the `gpt-*` ones.
 
 ### Maximum spend
 The script is quite conservative by default and has a max token spend of 12000 (at the time of writing - should be around US$0.02 using gpt-3, US$0.90 for gpt-4 (*I think* - I wish they had a token/spend calculator)).  If you want to process more than one or two papers at one time, you probably want to increase that to 20000+.  (For reference - a fairly average Arxiv pdf uses about 3.5k tokens).
 ```python
-default_max_token_spend = 40000
+default_max_token_spend = os.getenv('REDUCER_MAX_TOKEN_SPEND', 12000)
 ```
 If you set this to 0 then there is no maximum.
 ### Maximum characters to send to OpenAI
 By default the script limits the size of text from a paper to 12000 characters (roughly 3000 tokens) so as not to risk hitting limits.  If you are using a larger models like `gpt-4-32k` then you can up the limit.  (It's worth doing a character count on some papers to check what suits your situation).
 ```python
-default_max_chars = 30000
+default_max_chars = os.getenv('REDUCER_MAX_CHARS', 12000)
 ```
 If you set this to 0 then there is no maximum.
 ### Creativity
 The script defaults to being quite 'straight down the line' in it's calls to the API's and uses a temperature of 0.1.  If you want the models to be more 'creative' you can change the temperature (range is from 0 to 2).
 ```python
-default_temperature = 1.1
+default_temperature = os.getenv('REDUCER_TEMPERATURE', 0.1)
 ```
 
 ### Personality
 The script gives the model a little additional information to let it know it's "role" and help shape the responses.  You can change those to suit your circumstances.
 ```python
-default_personality = "You are a helpful AI assistant that is good at explaining things to people with a high-school level of science knowledge."
+default_personality = os.getenv('REDUCER_PERSONALITY', "You are a helpful AI assistant that is expert in taking in complex information and summarising it in a clear, friendly, concise accurate and informative way.")
 ```
 ## Requirements
 

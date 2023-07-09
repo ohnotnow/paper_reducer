@@ -6,23 +6,28 @@ import openai
 import argparse
 from time import sleep
 from halo import Halo
+import tiktoken
 
 prompts = [
     "Give me a very clear explanation of the core assertions, implications, and mechanics elucidated in this paper?",
     "Can you explain the value of this in basic terms? Like you're talking to a CEO. So what? What's the bottom line here?",
     "Can you give me an analogy or metaphor that will help explain this to a broad audience.",
 ]
-default_max_chars = 12000
-default_max_token_spend = 10000
-default_model_engine = "gpt-3.5-turbo-16k"
-default_temperature = 0.1
-default_personality = "You are a helpful AI assistant that is expert in taking in complex information and summarising it in a clear, friendly, concise accurate and informative way."
+default_max_chars = os.getenv('REDUCER_MAX_CHARS', 12000)
+default_max_token_spend = os.getenv('REDUCER_MAX_TOKEN_SPEND', 12000)
+default_model_engine = os.getenv('REDUCER_MODEL', "gpt-3.5-turbo-16k")
+default_temperature = os.getenv('REDUCER_TEMPERATURE', 0.1)
+default_personality = os.getenv('REDUCER_PERSONALITY', "You are a helpful AI assistant that is expert in taking in complex information and summarising it in a clear, friendly, concise accurate and informative way.")
 
 def get_available_models():
     openai.api_key = os.getenv("OPENAI_API_KEY")
     models = openai.Model.list()
     for model in models['data']:
         print(model.id)
+
+def string_to_token_count(string, model_engine=default_model_engine):
+    encoding = tiktoken.encoding_for_model(model_engine)
+    return len(encoding.encode(string))
 
 def get_new_pdf_contents(papers_dir, max_chars=default_max_chars):
     results = {}
@@ -49,7 +54,8 @@ def call_openai_api(results, prompts, model_engine=default_model_engine, tempera
     api_responses = {}
     tokens_spent = 0
     for filename, contents in results.items():
-        print("Processing {} ...".format(filename))
+        estimated_token_count = string_to_token_count(contents)
+        print("Processing {} (estimated {} tokens)...".format(filename, estimated_token_count))
         combined_responses = []
         max_tries = 5
         try_count = 0
