@@ -38,7 +38,7 @@ default_model_engine = os.getenv('REDUCER_MODEL', "gpt-3.5-turbo-16k")
 If you don't know which models you have available for your API key - then you can run the script with `--models` after it and it'll print out all that are open to you.  Generally you're looking for the `gpt-*` ones.
 
 ### Maximum spend
-The script is quite conservative by default and has a max token spend of 12000 (at the time of writing - should be around US$0.02 using gpt-3, US$0.90 for gpt-4 (*I think* - I wish they had a token/spend calculator)).  If you want to process more than one or two papers at one time, you probably want to increase that to 20000+.  (For reference - a fairly average Arxiv pdf uses about 3.5k tokens).
+The script is quite conservative by default and has a max token spend of 12000 (at the time of writing - should be around US$0.02 using gpt-3, US$0.90 for gpt-4 (*I think* - I wish they had a token/spend calculator)).  If you want to process more than one or two papers at one time, you probably want to increase that to 20000+.  (For reference - a fairly average Arxiv pdf uses about 3.5k tokens per prompt/summary).
 ```python
 default_max_token_spend = os.getenv('REDUCER_MAX_TOKEN_SPEND', 12000)
 ```
