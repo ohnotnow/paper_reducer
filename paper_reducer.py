@@ -30,18 +30,19 @@ def string_to_token_count(string, model_engine=default_model_engine):
     return len(encoding.encode(string))
 
 def get_token_price(model=default_model_engine, token_count=0, direction="output"):
-    if model == "gpt-4-0613":
+
+    if model.startswith('gpt-4-32k'):
         token_price_input = 0.03 / 1000
         token_price_output = 0.06 / 1000
-    elif model == "gpt-4-32k-0613":
+    elif model.startswith('gpt-4'):
         token_price_input = 0.06 / 1000
         token_price_output = 0.12 / 1000
-    elif model == "gpt-3.5-turbo-0613":
-        token_price_input = 0.0015 / 1000
-        token_price_output = 0.002 / 1000
-    elif model == "gpt-3.5-turbo-16k-0613" or model == "gpt-3.5-turbo-16k":
+    elif model.startswith('gpt-3.5-turbo-16k'):
         token_price_input = 0.003 / 1000
         token_price_output = 0.004 / 1000
+    elif model.startswith('gpt-3.5-turbo'):
+        token_price_input = 0.0015 / 1000
+        token_price_output = 0.002 / 1000
     else:
         token_price_input = 0.0
         token_price_output = 0.0
