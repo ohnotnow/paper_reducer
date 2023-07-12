@@ -13,10 +13,10 @@ prompts = [
     "Can you explain the value of this in basic terms? Like you're talking to a CEO. So what? What's the bottom line here?",
     "Can you give me an analogy or metaphor that will help explain this to a broad audience.",
 ]
-default_max_chars = os.getenv('REDUCER_MAX_CHARS', 12000)
-default_max_token_spend = os.getenv('REDUCER_MAX_TOKEN_SPEND', 12000)
+default_max_chars = int(os.getenv('REDUCER_MAX_CHARS', 12000))
+default_max_token_spend = int(os.getenv('REDUCER_MAX_TOKEN_SPEND', 12000))
 default_model_engine = os.getenv('REDUCER_MODEL', "gpt-3.5-turbo-16k")
-default_temperature = os.getenv('REDUCER_TEMPERATURE', 0.1)
+default_temperature = float(os.getenv('REDUCER_TEMPERATURE', 0.1))
 default_personality = os.getenv('REDUCER_PERSONALITY', "You are a helpful AI assistant that is expert in taking in complex information and summarising it in a clear, friendly, concise accurate and informative way.")
 
 def get_available_models():
@@ -28,6 +28,27 @@ def get_available_models():
 def string_to_token_count(string, model_engine=default_model_engine):
     encoding = tiktoken.encoding_for_model(model_engine)
     return len(encoding.encode(string))
+
+def get_token_price(model=default_model_engine, token_count=0, direction="output"):
+    if model == "gpt-4-0613":
+        token_price_input = 0.03 / 1000
+        token_price_output = 0.06 / 1000
+    elif model == "gpt-4-32k-0613":
+        token_price_input = 0.06 / 1000
+        token_price_output = 0.12 / 1000
+    elif model == "gpt-3.5-turbo-0613":
+        token_price_input = 0.0015 / 1000
+        token_price_output = 0.002 / 1000
+    elif model == "gpt-3.5-turbo-16k-0613" or model == "gpt-3.5-turbo-16k":
+        token_price_input = 0.003 / 1000
+        token_price_output = 0.004 / 1000
+    else:
+        token_price_input = 0.0
+        token_price_output = 0.0
+
+    if direction == "input":
+        return round(token_price_input * token_count, 2)
+    return round(token_price_output * token_count, 2)
 
 def get_new_pdf_contents(papers_dir, max_chars=default_max_chars):
     results = {}
@@ -43,7 +64,7 @@ def get_new_pdf_contents(papers_dir, max_chars=default_max_chars):
                 for page_num in range(len(pdf_reader.pages)):
                     page = pdf_reader.pages[page_num]
                     text_contents += page.extract_text()
-                if max_chars > 0 and len(text_contents) > max_chars:
+                if max_chars > 0 and len(text_contents) > int(max_chars):
                     print("Truncating {} to {} characters...".format(filename, max_chars))
                     text_contents = text_contents[0:max_chars]
                 results[filename] = text_contents
@@ -81,7 +102,7 @@ def call_openai_api(results, prompts, model_engine=default_model_engine, tempera
                         temperature=temperature,
                     )
                     tokens = response['usage']['total_tokens']
-                    print("Response received : tokens used: {}".format(tokens))
+                    print("Response received : tokens used: {} | Estimated cost US${}".format(tokens, get_token_price(model_engine, tokens, "output")))
                     tokens_spent += tokens
                     break
                 except Exception as e:

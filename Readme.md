@@ -60,6 +60,26 @@ The script gives the model a little additional information to let it know it's "
 ```python
 default_personality = os.getenv('REDUCER_PERSONALITY', "You are a helpful AI assistant that is expert in taking in complex information and summarising it in a clear, friendly, concise accurate and informative way.")
 ```
+
+### Example cost of running against three Arxiv papers
+With the `REDUCER_MODEL` set to the default 'gpt-3.5-turbo-16k', the `REDUCER_MAX_CHARS` set to 40000 (to fit in gpt-3.5's token limit) and `REDUCER_MAX_TOKEN_SPEND` set to '0' (infinite) then we can see estimated costs :
+```sh
+$ python3 paper_reducer.py
+Truncating 2307.02564.pdf to 40000 characters...
+Processing 2307.02564.pdf (estimated 13541 tokens)...
+⠸ Thinking about prompt 1...Response received : tokens used: 13930 | Estimated cost US$0.06
+⠇ Thinking about prompt 2...Response received : tokens used: 13845 | Estimated cost US$0.06
+⠼ Thinking about prompt 3...Response received : tokens used: 13860 | Estimated cost US$0.06
+Processing 2307.02496.pdf (estimated 5455 tokens)...
+⠋ Thinking about prompt 1...Response received : tokens used: 5814 | Estimated cost US$0.02
+⠹ Thinking about prompt 2...Response received : tokens used: 5664 | Estimated cost US$0.02
+⠧ Thinking about prompt 3...Response received : tokens used: 5794 | Estimated cost US$0.02
+Processing 2307.02486.pdf (estimated 10325 tokens)...
+⠧ Thinking about prompt 1...Response received : tokens used: 10807 | Estimated cost US$0.04
+⠼ Thinking about prompt 2...Response received : tokens used: 10548 | Estimated cost US$0.04
+⠧ Thinking about prompt 3...Response received : tokens used: 10587 | Estimated cost US$0.04
+```
+So around US$0.36 for three summaries of each of the three papers.
 ## Requirements
 
 * An OpenAI API key.
