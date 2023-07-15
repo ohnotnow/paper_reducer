@@ -161,8 +161,8 @@ if __name__ == '__main__':
         page_text = soup.get_text(strip=True)
 
         if default_max_chars > 0 and len(page_text) > int(default_max_chars):
-                    print("Truncating {} to {} characters...".format(filename, default_max_chars))
-                    text_contents = page_text[0:default_max_chars]
+            print("Truncating {} to {} characters...".format(filename, default_max_chars))
+            text_contents = page_text[0:default_max_chars]
         results[filename] = page_text
         api_responses = call_openai_api(results, prompts)
         for filename, response in api_responses.items():
