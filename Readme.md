@@ -26,6 +26,11 @@ python3 paper_reducer.py
 
 Note - again depending on your python install you might have to run `python` or `python3`.
 
+You can also pass the url to a regular webpage (not a file/pdf/docx yet though) :
+```sh
+export OPENAI_API_KEY=sk-....
+python3 paper_reducer.py --url=https://www.example.com/page.html
+```
 ## Customisation
 ### Prompts
 The script uses a set of default prompts to generate summaries of research papers. If you would like to change the prompts or add your own, you can modify the prompts list in the `paper_reducer.py` script. They are defined in the `prompts` array near the top of the script.

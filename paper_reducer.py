@@ -7,6 +7,9 @@ import argparse
 from time import sleep
 from halo import Halo
 import tiktoken
+import requests
+from bs4 import BeautifulSoup
+import re
 
 prompts = [
     "Give me a very clear explanation of the core assertions, implications, and mechanics elucidated in this paper?",
@@ -133,6 +136,7 @@ def save_file(filepath, content):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--models', action='store_true', help='List available OpenAI models')
+    parser.add_argument('--url', help='URL of a webpage to summarise')
     args = parser.parse_args()
 
     # If the --models flag was passed, display the models available with the users API key
@@ -140,6 +144,26 @@ if __name__ == '__main__':
         get_available_models()
         exit(0)
 
+    # If the --url flag was passed, summarise the webpage
+    if args.url:
+        url = args.url
+        print("Summarising {}".format(url))
+        results = {}
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        page_text = soup.get_text(strip=True)
+        filename = re.sub(r"^https?://", "", url, flags=re.IGNORECASE)
+        filename = filename.replace(".", "_")
+        filename = re.sub(r"/|_", "_", filename)
+        if default_max_chars > 0 and len(page_text) > int(default_max_chars):
+                    print("Truncating {} to {} characters...".format(filename, default_max_chars))
+                    text_contents = page_text[0:default_max_chars]
+        results[filename] = page_text
+        api_responses = call_openai_api(results, prompts)
+        for filename, response in api_responses.items():
+            filepath = os.path.join('papers', filename + '_summary.md')
+            save_file(filepath, response)
+        exit(0)
     papers_dir = 'papers'
     results = get_new_pdf_contents(papers_dir)
     api_responses = call_openai_api(results, prompts)
