@@ -147,14 +147,19 @@ if __name__ == '__main__':
     # If the --url flag was passed, summarise the webpage
     if args.url:
         url = args.url
-        print("Summarising {}".format(url))
         results = {}
-        response = requests.get(url)
-        soup = BeautifulSoup(response.text, 'html.parser')
-        page_text = soup.get_text(strip=True)
         filename = re.sub(r"^https?://", "", url, flags=re.IGNORECASE)
         filename = filename.replace(".", "_")
         filename = re.sub(r"/|_", "_", filename)
+        filepath = os.path.join('papers', filename)
+        if os.path.exists(filepath + '_summary.md'):
+            print("Skipping {} as it has already been processed...".format(filename))
+            exit(0)
+        print("Summarising {}".format(url))
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        page_text = soup.get_text(strip=True)
+
         if default_max_chars > 0 and len(page_text) > int(default_max_chars):
                     print("Truncating {} to {} characters...".format(filename, default_max_chars))
                     text_contents = page_text[0:default_max_chars]
